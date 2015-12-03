@@ -21,15 +21,15 @@ namespace DiscreteFunctions
 
 
 
-        public virtual TNodes[] X
+        public virtual TNodes[][] X
         {
-            get { return (TNodes[])Nodes; }
+            get { return (TNodes[][])Nodes; }
             set { Nodes = value; }
         }
 
-        public virtual TNodes[] Y
+        public virtual TNodes[][] Y
         {
-            get { return (TNodes[])Values; }
+            get { return (TNodes[][])Values; }
             set { Values = value; }
         }
 
@@ -66,12 +66,13 @@ namespace DiscreteFunctions
             Utils.CheckCompatibility(df1, df2);
             var values1 = (TValues[][])df1.Values;
             var values2 = (TValues[][])df2.Values;
-            var sum = new TValues[values1.Length];
-            for (int i = 0; i < UPPER; i++)
+            var sum = new TValues[values1.Length][];
+            for (int j = 0; j < values1.Length; j++)
             {
-                for (int i = 0; i < values1.Length; i++)
+                sum[j] = new TValues[values1[j].Length];
+                for (int i = 0; i < values1[j].Length; i++)
                 {
-                    sum[i] = binOperation(values1[i], values2[i]);
+                    sum[j][i] = binOperation(values1[j][i], values2[j][i]);
                 }
             }
             opDescription = $" {opDescription} ";
