@@ -7,11 +7,11 @@ namespace DiscreteFunctions
         /// <summary>
         /// Domain (x - coords)
         /// </summary>
-        protected Array Nodes;
+        public Array Nodes { get; protected set; }
         /// <summary>
         /// Values of a function
         /// </summary>
-        protected Array Values;
+        public Array Values { get; protected set; }
         public string Name { get; set; }
 
         protected DiscreteFunctionBase()
@@ -29,36 +29,33 @@ namespace DiscreteFunctions
         }
 
         #region Operators
-
-        public abstract DiscreteFunctionBase Add(DiscreteFunctionBase right);
-        public abstract DiscreteFunctionBase Subtract(DiscreteFunctionBase right);
-        public abstract DiscreteFunctionBase Multiply(DiscreteFunctionBase right);
-        public abstract DiscreteFunctionBase Divide(DiscreteFunctionBase right);
-        //public abstract DiscreteFunctionBase Abs();
-
         // X coordinates of discrete functions are supposed to be the same: 
         // no check of x-coords equality performs
         public static DiscreteFunctionBase operator +(DiscreteFunctionBase df1, DiscreteFunctionBase df2)
         {
-            return df1.Add(df2);
+            return df1.BinOp(df2, Operation.Add);
         }
 
         public static DiscreteFunctionBase operator -(DiscreteFunctionBase df1, DiscreteFunctionBase df2)
         {
-            return df1.Subtract(df2);
+            return df1.BinOp(df2, Operation.Sub);
         }
 
         public static DiscreteFunctionBase operator *(DiscreteFunctionBase df1, DiscreteFunctionBase df2)
         {
-            return df1.Multiply(df2);
+            return df1.BinOp(df2, Operation.Mul);
         }
 
         public static DiscreteFunctionBase operator /(DiscreteFunctionBase df1, DiscreteFunctionBase df2)
         {
-            return df1.Divide(df2);
+            return df1.BinOp(df2, Operation.Div);
         }
 
+        protected abstract DiscreteFunctionBase BinOp(DiscreteFunctionBase right, Operation op);
+
         #endregion
+
+
 
     }
 
