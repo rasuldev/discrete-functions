@@ -4,20 +4,15 @@ using MiscUtil;
 
 namespace DiscreteFunctions
 {
-    public class DiscreteFunction2DChunked<TNodes, TValues> : DiscreteFunctionBase
+    public class Df2DChunked<TNodes, TValues> : DfBase
     {
-
-        protected DiscreteFunction2DChunked(Array nodes, Array values) : base(nodes, values)
-        {
-        }
-
-        public DiscreteFunction2DChunked(TNodes[][] nodesChunks, TValues[][] valuesChunks)
+        public Df2DChunked(TNodes[][] nodesChunks, TValues[][] valuesChunks)
             : base(nodesChunks, valuesChunks)
         {
             if (nodesChunks != null)
                 Utils.CheckConsistency(nodesChunks, valuesChunks);
         }
-        public DiscreteFunction2DChunked(TValues[][] chunks) : base(chunks) { }
+        public Df2DChunked(TValues[][] chunks) : base(chunks) { }
 
 
 
@@ -44,29 +39,30 @@ namespace DiscreteFunctions
 
         #region Operations
 
-        protected DiscreteFunction2DChunked<TNodes, TValues> Convert(DiscreteFunctionBase df)
+        protected Df2DChunked<TNodes, TValues> Convert(DfBase df)
         {
-            var dfChunked = df as DiscreteFunction2DChunked<TNodes, TValues>;
+            var dfChunked = df as Df2DChunked<TNodes, TValues>;
             if (dfChunked == null)
                 throw new NotSupportedException($"Operator is not defined on {this.GetType()} and {df.GetType()}.");
             return dfChunked;
         }
 
 
-        protected override DiscreteFunctionBase BinOp(DiscreteFunctionBase right, Operation op)
+        protected override DfBase BinOp(DfBase right, Operation op)
         {
+            //var dfs = Convert
             return BinOp(this, Convert(right), op);
         }
 
-        protected static DiscreteFunction2DChunked<TNodes, TValues> BinOp(
-            DiscreteFunction2DChunked<TNodes, TValues> left, DiscreteFunction2DChunked<TNodes, TValues> right,
+        protected static Df2DChunked<TNodes, TValues> BinOp(
+            Df2DChunked<TNodes, TValues> left, Df2DChunked<TNodes, TValues> right,
             Operation op)
         {
             return BinOp(left, right, op.Operator<TValues>(), op.Sign());
         }
 
 
-        protected static DiscreteFunction2DChunked<TNodes, TValues> BinOp(DiscreteFunction2DChunked<TNodes, TValues> left, DiscreteFunction2DChunked<TNodes, TValues> right, Func<TValues, TValues, TValues> binOperator, string opDescription = "~")
+        protected static Df2DChunked<TNodes, TValues> BinOp(Df2DChunked<TNodes, TValues> left, Df2DChunked<TNodes, TValues> right, Func<TValues, TValues, TValues> binOperator, string opDescription = "~")
         {
             Utils.CheckCompatibility(left, right);
             var values1 = (TValues[][])left.Values;
@@ -81,29 +77,29 @@ namespace DiscreteFunctions
                 }
             }
             opDescription = $" {opDescription} ";
-            return new DiscreteFunction2DChunked<TNodes, TValues>(left.Nodes, sum) { Name = left.Name + opDescription + right.Name };
+            return new Df2DChunked<TNodes, TValues>(left.Nodes, sum) { Name = left.Name + opDescription + right.Name };
         }
         #endregion
 
         #region Operators
         // All operators are applied to Values (Y coords). Nodes (X coords) of discrete functions are supposed to be the same:
         // no check of nodes equality is performed
-        public static DiscreteFunction2DChunked<TNodes, TValues> operator +(DiscreteFunction2DChunked<TNodes, TValues> left, DiscreteFunction2DChunked<TNodes, TValues> right)
+        public static Df2DChunked<TNodes, TValues> operator +(Df2DChunked<TNodes, TValues> left, Df2DChunked<TNodes, TValues> right)
         {
             return BinOp(left, right, Operation.Add);
         }
 
-        public static DiscreteFunction2DChunked<TNodes, TValues> operator -(DiscreteFunction2DChunked<TNodes, TValues> left, DiscreteFunction2DChunked<TNodes, TValues> right)
+        public static Df2DChunked<TNodes, TValues> operator -(Df2DChunked<TNodes, TValues> left, Df2DChunked<TNodes, TValues> right)
         {
             return BinOp(left, right, Operation.Sub);
         }
 
-        public static DiscreteFunction2DChunked<TNodes, TValues> operator *(DiscreteFunction2DChunked<TNodes, TValues> left, DiscreteFunction2DChunked<TNodes, TValues> right)
+        public static Df2DChunked<TNodes, TValues> operator *(Df2DChunked<TNodes, TValues> left, Df2DChunked<TNodes, TValues> right)
         {
             return BinOp(left, right, Operation.Mul);
         }
 
-        public static DiscreteFunction2DChunked<TNodes, TValues> operator /(DiscreteFunction2DChunked<TNodes, TValues> left, DiscreteFunction2DChunked<TNodes, TValues> right)
+        public static Df2DChunked<TNodes, TValues> operator /(Df2DChunked<TNodes, TValues> left, Df2DChunked<TNodes, TValues> right)
         {
             return BinOp(left, right, Operation.Div);
         }

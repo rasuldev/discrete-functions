@@ -3,19 +3,15 @@ using System.Linq;
 
 namespace DiscreteFunctions
 {
-    public class DiscreteFunction2D : DiscreteFunction2DChunked<double, double>
+    public class Df2D : Df2DChunked<double, double>
     {
 
         #region Constructors
-        protected DiscreteFunction2D(Array nodes, Array values) : base(nodes, values)
+        public Df2D(double[] nodes, double[] values) : base(nodes == null ? null : new[] { nodes }, new[] { values })
         {
         }
 
-        public DiscreteFunction2D(double[] nodes, double[] values) : base(nodes == null ? null : new[] { nodes }, new[] { values })
-        {
-        }
-
-        public DiscreteFunction2D(params double[] values) : base(new[] { values })
+        public Df2D(params double[] values) : base(new[] { values })
         {
         }
 
@@ -37,22 +33,22 @@ namespace DiscreteFunctions
 
         #region Operators
 
-        public static DiscreteFunction2D operator +(DiscreteFunction2D left, DiscreteFunction2D right)
+        public static Df2D operator +(Df2D left, Df2D right)
         {
             return Convert(BinOp(left, right, Operation.Add));
         }
 
-        public static DiscreteFunction2D operator -(DiscreteFunction2D left, DiscreteFunction2D right)
+        public static Df2D operator -(Df2D left, Df2D right)
         {
             return Convert(BinOp(left, right, Operation.Sub));
         }
 
-        public static DiscreteFunction2D operator *(DiscreteFunction2D left, DiscreteFunction2D right)
+        public static Df2D operator *(Df2D left, Df2D right)
         {
             return Convert(BinOp(left, right, Operation.Mul));
         }
 
-        public static DiscreteFunction2D operator /(DiscreteFunction2D left, DiscreteFunction2D right)
+        public static Df2D operator /(Df2D left, Df2D right)
         {
             return Convert(BinOp(left, right, Operation.Div));
         }
@@ -61,16 +57,24 @@ namespace DiscreteFunctions
 
         #region Operations
 
-        protected override DiscreteFunctionBase BinOp(DiscreteFunctionBase right, Operation op)
+        protected override DfBase BinOp(DfBase right, Operation op)
         {
+
+
+
             var df = base.BinOp(right, op);
-            return
-                right is DiscreteFunction2D ? Convert(df) : df;
+            // this is df2D. If BinOp was successfully applied to this and right,
+            // then right either is df2D, or can be converted to df2D. So we can always
+            // treat result of BinOp as df2D 
+            return Convert(df);
+
+            // Alternative option:
+            // return right is DiscreteFunction2D ? Convert(df) : df;
         }
 
-        public static DiscreteFunction2D Convert(DiscreteFunction2DChunked<double, double> df)
+        public static Df2D Convert(Df2DChunked<double, double> df)
         {
-            return new DiscreteFunction2D(df.X?[0], df.Y[0]);
+            return new Df2D(df.X?[0], df.Y[0]);
         }
 
 

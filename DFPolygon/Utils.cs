@@ -2,7 +2,7 @@
 {
     public static class Utils
     {
-        public static void CheckCompatibility<T1, T2, T3, T4>(DiscreteFunction2DChunked<T1, T2> df1, DiscreteFunction2DChunked<T3, T4> df2)
+        public static void CheckCompatibility<T1, T2, T3, T4>(Df2DChunked<T1, T2> df1, Df2DChunked<T3, T4> df2)
         {
             if (!HaveEqualSizes(df1.Y,df2.Y))
                 throw new NotCompatibleException();

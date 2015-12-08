@@ -3,17 +3,21 @@ using System.Linq;
 
 namespace DiscreteFunctions
 {
-    public class DiscreteFunctions2DComplex : DiscreteFunction2DChunked<alglib.complex, alglib.complex>
+    public class Df2DComplex : Df2DChunked<alglib.complex, alglib.complex>
     {
-        public DiscreteFunctions2DComplex(Array nodes, Array values) : base(nodes, values)
+        public Df2DComplex(Array nodes, Array values) : base(nodes, values)
         {
         }
 
-        public DiscreteFunctions2DComplex(alglib.complex[][] nodesChunks, alglib.complex[][] valuesChunks) : base(nodesChunks, valuesChunks)
+        public Df2DComplex(alglib.complex[][] nodesChunks, alglib.complex[][] valuesChunks) : base(nodesChunks, valuesChunks)
         {
         }
 
-        public DiscreteFunctions2DComplex(alglib.complex[][] chunks) : base(chunks)
+        public Df2DComplex(alglib.complex[][] chunks) : base(chunks)
+        {
+        }
+
+        public Df2DComplex(params alglib.complex[] values) : base(new[] { values })
         {
         }
 
@@ -44,16 +48,16 @@ namespace DiscreteFunctions
 
         #region Operations
 
-        protected override DiscreteFunctionBase BinOp(DiscreteFunctionBase right, Operation op)
+        protected override DfBase BinOp(DfBase right, Operation op)
         {
             var df = base.BinOp(right, op);
             return
-                right is DiscreteFunction2D ? Convert(df) : df;
+                right is Df2D ? Convert(df) : df;
         }
 
-        public static DiscreteFunction2D Convert(DiscreteFunction2DChunked<double, double> df)
+        public static Df2D Convert(Df2DChunked<double, double> df)
         {
-            return new DiscreteFunction2D(df.X?[0], df.Y[0]);
+            return new Df2D(df.X?[0], df.Y[0]);
         }
 
 

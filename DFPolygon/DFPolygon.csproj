@@ -49,10 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DiscreteFunction2D.cs" />
-    <Compile Include="DiscreteFunction2DChunked.cs" />
-    <Compile Include="DiscreteFunctionBase.cs" />
-    <Compile Include="DiscreteFunctions2DComplex.cs" />
+    <Compile Include="Df2DOpt.cs" />
+    <Compile Include="DfConverter.cs" />
+    <Compile Include="Df2D.cs" />
+    <Compile Include="Df2DChunked.cs" />
+    <Compile Include="DfBase.cs" />
+    <Compile Include="Df2DComplex.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="Operation.cs" />
     <Compile Include="Program.cs" />

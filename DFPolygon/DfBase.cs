@@ -2,7 +2,7 @@
 
 namespace DiscreteFunctions
 {
-    public abstract class DiscreteFunctionBase
+    public abstract class DfBase
     {
         /// <summary>
         /// Domain (x - coords)
@@ -14,15 +14,15 @@ namespace DiscreteFunctions
         public Array Values { get; protected set; }
         public string Name { get; set; }
 
-        protected DiscreteFunctionBase()
+        protected DfBase()
         {
         }
 
-        protected DiscreteFunctionBase(Array values) : this(null, values)
+        protected DfBase(Array values) : this(null, values)
         {
         }
 
-        protected DiscreteFunctionBase(Array nodes, Array values)
+        protected DfBase(Array nodes, Array values)
         {
             Nodes = nodes;
             Values = values;
@@ -31,27 +31,27 @@ namespace DiscreteFunctions
         #region Operators
         // X coordinates of discrete functions are supposed to be the same: 
         // no check of x-coords equality performs
-        public static DiscreteFunctionBase operator +(DiscreteFunctionBase df1, DiscreteFunctionBase df2)
+        public static DfBase operator +(DfBase df1, DfBase df2)
         {
             return df1.BinOp(df2, Operation.Add);
         }
 
-        public static DiscreteFunctionBase operator -(DiscreteFunctionBase df1, DiscreteFunctionBase df2)
+        public static DfBase operator -(DfBase df1, DfBase df2)
         {
             return df1.BinOp(df2, Operation.Sub);
         }
 
-        public static DiscreteFunctionBase operator *(DiscreteFunctionBase df1, DiscreteFunctionBase df2)
+        public static DfBase operator *(DfBase df1, DfBase df2)
         {
             return df1.BinOp(df2, Operation.Mul);
         }
 
-        public static DiscreteFunctionBase operator /(DiscreteFunctionBase df1, DiscreteFunctionBase df2)
+        public static DfBase operator /(DfBase df1, DfBase df2)
         {
             return df1.BinOp(df2, Operation.Div);
         }
 
-        protected abstract DiscreteFunctionBase BinOp(DiscreteFunctionBase right, Operation op);
+        protected abstract DfBase BinOp(DfBase right, Operation op);
 
         #endregion
 
